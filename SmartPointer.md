@@ -143,7 +143,7 @@
 	>
 	> [Sen Zhang](https://www.zhihu.com/question/37351146/answer/83379043)
 
-	> 总而言之，auto_ptr 最大的弊端在于允许很多几乎没有实际用处又不符合常规认知的行为，用 scoped_ptr 和 unique_ptr 可以利用静态检查早早地指出这些无意义操作的存在。
+	> 总而言之, auto_ptr 最大的弊端在于允许很多几乎没有实际用处又不符合常规认知的行为, 用 scoped_ptr 和 unique_ptr 可以利用静态检查早早地指出这些无意义操作的存在。
 	>
 	> [丁冬](https://www.zhihu.com/question/37351146/answer/71576902)
 
@@ -184,6 +184,40 @@
 *	TODO
 
 	其他智能指针的用法和特点
+
+	shared_ptr 没有控制权的问题, 它使用的是引用计数, 不需要用 move()
+
+	> 对于使用引用计数实现的智能指针, 总是避免不了 `环形引用` 的问题
+	> 一般都是在可能出现环形引用的地方使用 weak_ptr 来代替 shared_ptr
+	> weak_ptr 可以指向 shared_ptr 所指向的对象, 但是却不增加对象的引用计数
+	> 此时可能出现 weak_ptr 所指向的对象实际上已经被释放了的情况
+	> 因此, weak_ptr 有一个 lock 函数, 尝试取回一个指向对象的shared_ptr
+	>
+	> [selfboot](https://github.com/selfboot/CS_Offer/blob/master/C%2B%2B/11_SmartPoint.md)
+
+	```cpp
+	#include <iostream>
+	#include <memory>
+
+	std::weak_ptr<int> gw;
+	void f() {
+		if (auto spt = gw.lock()) { // Has to be copied into a shared_ptr before usage
+			std::cout << *spt << "\n";
+		}
+		else {
+			std::cout << "sp expired\n";
+		}
+	}
+
+	int main() {
+		{
+			auto sp = std::make_shared<int>(42);
+			gw = sp;
+			f();    // 输出 42
+		}
+		f();    // 超出作用域, sp 已经释放, f() 会进入 else, 输出 sp expired
+	}
+	```
 
 	<br>
 
