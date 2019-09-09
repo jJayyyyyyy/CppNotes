@@ -236,3 +236,7 @@
 *	[auto_ptr, cplusplus](http://www.cplusplus.com/reference/memory/auto_ptr/)
 
 *	[智能指针, wikipedia](https://zh.wikipedia.org/wiki/智能指针)
+
+*	[costaxu](https://my.oschina.net/costaxu/blog/105101)
+
+*	[C++ 的智能指针与 Java 的垃圾回收有哪些区别？](https://www.zhihu.com/question/30986949)
