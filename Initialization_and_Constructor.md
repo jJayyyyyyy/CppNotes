@@ -63,7 +63,9 @@
 		Rectangle r3{ 2, 3 }; // r3._width = 2, r3._height = 3
 
 
-		Circle c1{};          // error, 只有一个带参数的构造函数, 不能进行默认初始化, 需要一个不带参数的构造函数 Circle(){}
+		Circle c1{};          // error, 只有一个带参数的构造函数, 不能进行默认初始化
+		                      // 需要一个不带参数的构造函数 Circle(){}
+
 		Circle c2{ 2 };       // error, 私有变量不能这样初始化, 需要使用 setter 或者 构造函数
 		Circle c3(3);         // ok, 使用构造函数, radius == 3
 		Circle c4({});        // ok, radius = 0
